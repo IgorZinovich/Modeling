@@ -23,8 +23,8 @@ namespace Modeling
             double b;
             try
             {
-                a = Convert.ToDouble(textA.Text);
-                b = Convert.ToDouble(textB.Text);
+                a = Convert.ToDouble(textA.Text.Replace('.', ','));
+                b = Convert.ToDouble(textB.Text.Replace('.', ','));
             }
             catch(Exception ex)
             {
@@ -32,7 +32,7 @@ namespace Modeling
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if((a < 0 && a > 1) || (a < 0 && a > 1) || a >= b)
+            if((a < 0.0 || a >= 1.0) || (b <= 0.0 || b > 1.0) || a >= b)
             {
                 MessageBox.Show("Не верно введены параметры a и b", "Ошибка",
                    MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -61,7 +61,16 @@ namespace Modeling
             {
                 Y[i] /= list.Count;
             }
+
+            textMX.Text = Functions.GetMedian(list).ToString("0.00000");
+            textDX.Text = Functions.GetDisp(list).ToString("0.00000");
+            textRMS.Text = Functions.GetRMS(list).ToString("0.00000");
+
             this.chart1.Series[0].Points.DataBindXY(X, Y);
+
+
         }
+
+        
     }
 }
